@@ -1,0 +1,7 @@
+Project 1 Sorting:
+
+https://en.wikipedia.org/wiki/Bubble_sort
+https://en.wikipedia.org/wiki/Cocktail_shaker_sort
+
+Grokking Algorithms by Aditya Y. Bhargava
+https://en.wikipedia.org/wiki/Quicksort
