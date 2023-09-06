@@ -5,3 +5,5 @@ https://en.wikipedia.org/wiki/Cocktail_shaker_sort
 
 Grokking Algorithms by Aditya Y. Bhargava
 https://en.wikipedia.org/wiki/Quicksort
+
+https://brilliant.org/wiki/counting-sort/
