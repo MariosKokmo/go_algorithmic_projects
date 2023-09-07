@@ -19,7 +19,7 @@ func binarySearch(slice []int, target int) (index, numTests int) {
 		if L >= R {
 			break
 		}
-		m := (L + R) / 2
+		m := L + (R-L)/2
 		tests += 1
 		if slice[m] < target {
 			L = m + 1
