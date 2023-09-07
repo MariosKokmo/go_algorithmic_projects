@@ -7,3 +7,7 @@ Grokking Algorithms by Aditya Y. Bhargava
 https://en.wikipedia.org/wiki/Quicksort
 
 https://brilliant.org/wiki/counting-sort/
+
+https://en.wikipedia.org/wiki/Binary_search_algorithm
+https://www.khanacademy.org/computing/computer-science/algorithms/binary-search/a/binary-search
+https://www.khanacademy.org/computing/computer-science/algorithms/binary-search/a/implementing-binary-search-of-an-array
