@@ -11,3 +11,8 @@ https://brilliant.org/wiki/counting-sort/
 https://en.wikipedia.org/wiki/Binary_search_algorithm
 https://www.khanacademy.org/computing/computer-science/algorithms/binary-search/a/binary-search
 https://www.khanacademy.org/computing/computer-science/algorithms/binary-search/a/implementing-binary-search-of-an-array
+
+Project 2 Linked data structures
+
+Loops:
+https://en.wikipedia.org/wiki/Cycle_detection#Floyd's_tortoise_and_hare
