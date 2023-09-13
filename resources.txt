@@ -21,3 +21,7 @@ https://en.wikipedia.org/wiki/Cycle_detection#Floyd's_tortoise_and_hare
 Project 5 Cryprography RSA
 
 https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm
+
+https://mathlesstraveled.com/2018/08/18/modular-exponentiation-by-repeated-squaring/
+https://en.wikipedia.org/wiki/Exponentiation_by_squaring
+https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/fast-modular-exponentiation

@@ -69,6 +69,6 @@ func main() {
 			break
 		}
 
-		fmt.Printf("A %s, B %s, GCD: %s, LCM: %s\n ", a.String(), b.String(), gcd(a, b).String(), lcm(a, b).String())
+		fmt.Printf(" A: %s \n B: %s \n GCD: %s \n LCM: %s\n ", a.String(), b.String(), gcd(a, b).String(), lcm(a, b).String())
 	}
 }
