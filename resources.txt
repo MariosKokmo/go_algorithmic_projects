@@ -17,6 +17,10 @@ Project 2 Linked data structures
 Loops:
 https://en.wikipedia.org/wiki/Cycle_detection#Floyd's_tortoise_and_hare
 
+Project 3 Recursion
+
+https://en.wikipedia.org/wiki/Fibonacci_sequence
+https://en.wikipedia.org/wiki/Dynamic_programming
 
 Project 5 Cryprography RSA
 
