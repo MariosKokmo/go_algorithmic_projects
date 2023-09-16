@@ -1,3 +1,4 @@
+// This implementation does not use the allowed moves function
 package main
 
 import (
@@ -55,24 +56,11 @@ func dumpBoard(board [][]int, numRows, numCols int) {
 	}
 }
 
-func findAllowedMoves(moveOffsets []Offset, numRows, numCols, curRow, curCol int) []Offset {
-	var allowedMoves []Offset
-	for _, offset := range moveOffsets {
-		if (curRow+offset.dr >= numRows) || (curRow+offset.dr < 0) || (curCol+offset.dc >= numCols) || (curCol+offset.dc < 0) {
-			continue
-		} else {
-			allowedMoves = append(allowedMoves, offset)
-		}
-	}
-	return allowedMoves
-}
-
 // Try to extend a knight's tour starting at (curRow, curCol).
 // Return true or false to indicate whether we have found a solution.
 // numVisited is the number of the squares the knight has visited in the current tour including the current square
 func findTour(board [][]int, numRows, numCols, curRow, curCol, numVisited int) bool {
 	numCalls += 1
-	allowedMoves := findAllowedMoves(moveOffsets, numRows, numCols, curRow, curCol)
 	// If the night has visited all squares
 	if numVisited == numRows*numCols {
 		if requireClosedTour == false {
@@ -80,8 +68,18 @@ func findTour(board [][]int, numRows, numCols, curRow, curCol, numVisited int) b
 			return true
 		} else {
 			// we check if we can land back on the initial square
-			for _, offset := range allowedMoves {
-				if board[curRow+offset.dr][curCol+offset.dc] == 0 {
+			for _, offset := range moveOffsets {
+				r := curRow + offset.dr
+				c := curCol + offset.dc
+
+				if r < 0 || r >= numRows {
+					continue
+				}
+				if c < 0 || c >= numCols {
+					continue
+				}
+
+				if board[r][c] == 0 {
 					return true
 				}
 			}
@@ -91,18 +89,27 @@ func findTour(board [][]int, numRows, numCols, curRow, curCol, numVisited int) b
 	}
 	// knight has not visited every square
 	// check all posible moves from current square
-	for _, offset := range allowedMoves {
+	for _, offset := range moveOffsets {
+		r := curRow + offset.dr
+		c := curCol + offset.dc
+
+		if r < 0 || r >= numRows {
+			continue
+		}
+		if c < 0 || c >= numCols {
+			continue
+		}
 		// check if it lands on previously visited or outside the board
-		if board[curRow+offset.dr][curCol+offset.dc] != unvisited {
+		if board[r][c] != unvisited {
 			continue
 		}
 		// else search recursively for a tour
-		board[curRow+offset.dr][curCol+offset.dc] = numVisited
-		found := findTour(board, numRows, numCols, curRow+offset.dr, curCol+offset.dc, numVisited+1)
+		board[r][c] = numVisited
+		found := findTour(board, numRows, numCols, r, c, numVisited+1)
 		if found {
 			return true
 		}
-		board[curRow+offset.dr][curCol+offset.dc] = unvisited
+		board[r][c] = unvisited
 	}
 	return false
 }
@@ -123,7 +130,6 @@ func main() {
 
 	// Try to find a tour.
 	start := time.Now()
-	//board[0][0] = 0
 	if findTour(board, numRows, numCols, 0, 0, 1) {
 		fmt.Println("Success!")
 	} else {
