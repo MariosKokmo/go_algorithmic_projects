@@ -1,4 +1,4 @@
-Project 1 Sorting:
+##Project 1 Sorting:
 
 https://en.wikipedia.org/wiki/Bubble_sort
 https://en.wikipedia.org/wiki/Cocktail_shaker_sort
@@ -12,17 +12,19 @@ https://en.wikipedia.org/wiki/Binary_search_algorithm
 https://www.khanacademy.org/computing/computer-science/algorithms/binary-search/a/binary-search
 https://www.khanacademy.org/computing/computer-science/algorithms/binary-search/a/implementing-binary-search-of-an-array
 
-Project 2 Linked data structures
+##Project 2 Linked data structures
 
 Loops:
 https://en.wikipedia.org/wiki/Cycle_detection#Floyd's_tortoise_and_hare
 
-Project 3 Recursion
+##Project 3 Recursion
 
 https://en.wikipedia.org/wiki/Fibonacci_sequence
 https://en.wikipedia.org/wiki/Dynamic_programming
 
-Project 5 Cryprography RSA
+https://en.wikipedia.org/wiki/Knight%27s_tour
+
+##Project 5 Cryprography RSA
 
 https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm
 
