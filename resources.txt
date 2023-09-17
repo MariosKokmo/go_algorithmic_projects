@@ -24,6 +24,8 @@ https://en.wikipedia.org/wiki/Dynamic_programming
 
 https://en.wikipedia.org/wiki/Knight%27s_tour
 
+https://en.wikipedia.org/wiki/Eight_queens_puzzle
+
 ##Project 5 Cryprography RSA
 
 https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm
