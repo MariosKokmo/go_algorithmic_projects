@@ -162,19 +162,44 @@ func placeQueens2(board [][]string, numRows, r, c, numPlaced int) bool {
 	// revert to empty
 	board[r][c] = "."
 	return false
+}
 
+// Try to place a queen in this column.
+// Return true if we find a legal board.
+func placeQueens4(board [][]string, numRows, c int) bool {
+	if c == numRows {
+		if boardIsLegal(board, numRows) {
+			return true
+		}
+		return false
+	}
+	if c < numRows {
+		if !boardIsLegal(board, numRows) {
+			return false
+		}
+		// assign a queen to column c
+		for r := 0; r < numRows; r++ {
+			board[r][c] = "Q"
+			if placeQueens4(board, numRows, c+1) {
+				return true
+			}
+			board[r][c] = "."
+		}
+	}
+	return false
 }
 
 func main() {
 	//test_utilities()
 
-	const numRows = 4
+	const numRows = 20
 	board := makeBoard(numRows)
 
 	start := time.Now()
 	//success := placeQueens1(board, numRows, 0, 0)
-	success := placeQueens2(board, numRows, 0, 0, 0)
+	//success := placeQueens2(board, numRows, 0, 0, 0)
 	//success := placeQueens3(board, numRows, 0, 0, 0)
+	success := placeQueens4(board, numRows, 0)
 
 	elapsed := time.Since(start)
 	if success {

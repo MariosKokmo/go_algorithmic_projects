@@ -19,6 +19,11 @@ Project 2 includes the implementations of some linked data structures (linear an
 Project 3 includes the solutions to some well-known recursion problems
 - factorials
 - fibonacci
+- dynamic fibonacci
+- knight's tour
+- N queens brute force
+
+Project 4 includes code implementations for problems related to hashing
 
 Project 5 includes code implementations of utilities for prime numbers and RSA
 - gcd
