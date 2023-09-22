@@ -28,3 +28,4 @@ Project 4 includes code implementations for problems related to hashing
 Project 5 includes code implementations of utilities for prime numbers and RSA
 - gcd
 - fast exponentiation
+- sieve of Eratosthenes

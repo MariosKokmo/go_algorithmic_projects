@@ -7,6 +7,151 @@ import (
 	"time"
 )
 
+// Try placing a queen at position [r][c].
+// Return true if we find a legal board.
+// Brute force approach checks all the squares
+func placeQueens1(board [][]string, numRows, r, c int) bool {
+	if r >= numRows {
+		return boardIsASolution(board)
+	}
+	nextC := (c + 1) % numRows
+	nextR := r + (c+1)/numRows
+	// if we don't place a queen
+	if placeQueens1(board, numRows, nextR, nextC) {
+		return true
+	}
+	// if we place a queen
+	board[r][c] = "Q"
+	if placeQueens1(board, numRows, nextR, nextC) {
+		return true
+	}
+	// revert to empty
+	board[r][c] = "."
+	return false
+
+}
+
+// Stops if N queens have been placed already
+func placeQueens2(board [][]string, numRows, r, c, numPlaced int) bool {
+	if r >= numRows {
+		return boardIsASolution(board)
+	}
+	if numPlaced == numRows {
+		return boardIsASolution(board)
+	}
+	nextC := (c + 1) % numRows
+	nextR := r + (c+1)/numRows
+	// if we don't place a queen
+	if placeQueens2(board, numRows, nextR, nextC, numPlaced) {
+		return true
+	}
+	// if we place a queen
+	board[r][c] = "Q"
+	curNumPlaced := numPlaced + 1
+	if placeQueens2(board, numRows, nextR, nextC, curNumPlaced) {
+		return true
+	}
+	// revert to empty
+	board[r][c] = "."
+	return false
+}
+
+// Try to place a queen in this column.
+// Return true if we find a legal board.
+// Implements a 1 queen per column improvement
+func placeQueens4(board [][]string, numRows, c int) bool {
+	if c == numRows {
+		if boardIsLegal(board, numRows) {
+			return true
+		}
+		return false
+	}
+	if c < numRows {
+		if !boardIsLegal(board, numRows) {
+			return false
+		}
+		// assign a queen to column c
+		for r := 0; r < numRows; r++ {
+			board[r][c] = "Q"
+			if placeQueens4(board, numRows, c+1) {
+				return true
+			}
+			board[r][c] = "."
+		}
+	}
+	return false
+}
+
+func main() {
+	//test_utilities()
+
+	const numRows = 12
+	board := makeBoard(numRows)
+
+	start := time.Now()
+	//success := placeQueens1(board, numRows, 0, 0)
+	//success := placeQueens2(board, numRows, 0, 0, 0)
+	//success := placeQueens3(board, numRows, 0, 0, 0)
+	success := placeQueens4(board, numRows, 0)
+
+	elapsed := time.Since(start)
+	if success {
+		fmt.Println("Success!")
+		dumpBoard(board, numRows)
+	} else {
+		fmt.Println("No solution")
+	}
+	fmt.Printf("Elapsed: %f seconds\n", elapsed.Seconds())
+}
+
+func test_utilities() {
+	fmt.Println("=========")
+	fmt.Println("==Test 1=")
+	board := [][]string{{".", "Q", ".", "."},
+		{".", ".", ".", "Q"},
+		{"Q", ".", ".", "."},
+		{".", ".", "Q", "."}}
+	dumpBoard(board, 4)
+	fmt.Println(seriesIsLegal(board, 4, 0, 0, 1, 1)) // checks diagonal
+	fmt.Println(boardIsLegal(board, 4))              // should print true
+	fmt.Println(boardIsASolution(board))             // true
+	fmt.Println("========")
+	fmt.Println("========")
+	fmt.Println("==Test 2==")
+	board = [][]string{{"Q", ".", ".", "."},
+		{".", ".", ".", "Q"},
+		{"Q", ".", ".", "."},
+		{".", ".", "Q", "."}}
+	dumpBoard(board, 4)
+	fmt.Println(seriesIsLegal(board, 4, 0, 0, 1, 0)) // checks first column. gives false
+	fmt.Println(boardIsLegal(board, 4))              // should print false
+	fmt.Println(boardIsASolution(board))             // false
+	fmt.Println("========")
+	fmt.Println("==Test 3==")
+	board = [][]string{{".", ".", "Q", "."},
+		{".", ".", ".", "Q"},
+		{"Q", ".", ".", "."},
+		{".", ".", "Q", "."}}
+	dumpBoard(board, 4)
+	fmt.Println(seriesIsLegal(board, 4, 0, 0, 1, 1)) // gives true
+	fmt.Println(seriesIsLegal(board, 4, 0, 2, 1, 1)) // checks first column. gives false. diagonal fails
+	fmt.Println(boardIsLegal(board, 4))              // should print false
+	fmt.Println(boardIsASolution(board))             // false
+	fmt.Println("========")
+	fmt.Println("==Test 4==")
+	board = [][]string{{".", ".", ".", "Q"},
+		{".", ".", "Q", "."},
+		{".", "Q", ".", "."},
+		{"Q", ".", ".", "."}}
+	dumpBoard(board, 4)
+	fmt.Println(seriesIsLegal(board, 4, 0, 3, 1, 0))   // checks last column. gives true
+	fmt.Println(seriesIsLegal(board, 4, 0, 0, 1, 1))   // true
+	fmt.Println(seriesIsLegal(board, 4, 3, 3, -1, -1)) // . gives false. diagonal fails
+	fmt.Println(boardIsLegal(board, 4))                // should print false
+	fmt.Println(boardIsASolution(board))               // false
+	fmt.Println("========")
+}
+
 func makeBoard(numRows int) [][]string {
 	board := make([][]string, numRows)
 	for i := 0; i < numRows; i++ {
@@ -115,146 +260,4 @@ func dumpBoard(board [][]string, numRows int) {
 		}
 		fmt.Println("")
 	}
-}
-
-// Try placing a queen at position [r][c].
-// Return true if we find a legal board.
-func placeQueens1(board [][]string, numRows, r, c int) bool {
-	if r >= numRows {
-		return boardIsASolution(board)
-	}
-	nextC := (c + 1) % numRows
-	nextR := r + (c+1)/numRows
-	// if we don't place a queen
-	if placeQueens1(board, numRows, nextR, nextC) {
-		return true
-	}
-	// if we place a queen
-	board[r][c] = "Q"
-	if placeQueens1(board, numRows, nextR, nextC) {
-		return true
-	}
-	// revert to empty
-	board[r][c] = "."
-	return false
-
-}
-
-func placeQueens2(board [][]string, numRows, r, c, numPlaced int) bool {
-	if r >= numRows {
-		return boardIsASolution(board)
-	}
-	if numPlaced == numRows {
-		return boardIsASolution(board)
-	}
-	nextC := (c + 1) % numRows
-	nextR := r + (c+1)/numRows
-	// if we don't place a queen
-	if placeQueens2(board, numRows, nextR, nextC, numPlaced) {
-		return true
-	}
-	// if we place a queen
-	board[r][c] = "Q"
-	curNumPlaced := numPlaced + 1
-	if placeQueens2(board, numRows, nextR, nextC, curNumPlaced) {
-		return true
-	}
-	// revert to empty
-	board[r][c] = "."
-	return false
-}
-
-// Try to place a queen in this column.
-// Return true if we find a legal board.
-func placeQueens4(board [][]string, numRows, c int) bool {
-	if c == numRows {
-		if boardIsLegal(board, numRows) {
-			return true
-		}
-		return false
-	}
-	if c < numRows {
-		if !boardIsLegal(board, numRows) {
-			return false
-		}
-		// assign a queen to column c
-		for r := 0; r < numRows; r++ {
-			board[r][c] = "Q"
-			if placeQueens4(board, numRows, c+1) {
-				return true
-			}
-			board[r][c] = "."
-		}
-	}
-	return false
-}
-
-func main() {
-	//test_utilities()
-
-	const numRows = 20
-	board := makeBoard(numRows)
-
-	start := time.Now()
-	//success := placeQueens1(board, numRows, 0, 0)
-	//success := placeQueens2(board, numRows, 0, 0, 0)
-	//success := placeQueens3(board, numRows, 0, 0, 0)
-	success := placeQueens4(board, numRows, 0)
-
-	elapsed := time.Since(start)
-	if success {
-		fmt.Println("Success!")
-		dumpBoard(board, numRows)
-	} else {
-		fmt.Println("No solution")
-	}
-	fmt.Printf("Elapsed: %f seconds\n", elapsed.Seconds())
-}
-
-func test_utilities() {
-	fmt.Println("=========")
-	fmt.Println("==Test 1=")
-	board := [][]string{{".", "Q", ".", "."},
-		{".", ".", ".", "Q"},
-		{"Q", ".", ".", "."},
-		{".", ".", "Q", "."}}
-	dumpBoard(board, 4)
-	fmt.Println(seriesIsLegal(board, 4, 0, 0, 1, 1)) // checks diagonal
-	fmt.Println(boardIsLegal(board, 4))              // should print true
-	fmt.Println(boardIsASolution(board))             // true
-	fmt.Println("========")
-	fmt.Println("========")
-	fmt.Println("==Test 2==")
-	board = [][]string{{"Q", ".", ".", "."},
-		{".", ".", ".", "Q"},
-		{"Q", ".", ".", "."},
-		{".", ".", "Q", "."}}
-	dumpBoard(board, 4)
-	fmt.Println(seriesIsLegal(board, 4, 0, 0, 1, 0)) // checks first column. gives false
-	fmt.Println(boardIsLegal(board, 4))              // should print false
-	fmt.Println(boardIsASolution(board))             // false
-	fmt.Println("========")
-	fmt.Println("==Test 3==")
-	board = [][]string{{".", ".", "Q", "."},
-		{".", ".", ".", "Q"},
-		{"Q", ".", ".", "."},
-		{".", ".", "Q", "."}}
-	dumpBoard(board, 4)
-	fmt.Println(seriesIsLegal(board, 4, 0, 0, 1, 1)) // gives true
-	fmt.Println(seriesIsLegal(board, 4, 0, 2, 1, 1)) // checks first column. gives false. diagonal fails
-	fmt.Println(boardIsLegal(board, 4))              // should print false
-	fmt.Println(boardIsASolution(board))             // false
-	fmt.Println("========")
-	fmt.Println("==Test 4==")
-	board = [][]string{{".", ".", ".", "Q"},
-		{".", ".", "Q", "."},
-		{".", "Q", ".", "."},
-		{"Q", ".", ".", "."}}
-	dumpBoard(board, 4)
-	fmt.Println(seriesIsLegal(board, 4, 0, 3, 1, 0))   // checks last column. gives true
-	fmt.Println(seriesIsLegal(board, 4, 0, 0, 1, 1))   // true
-	fmt.Println(seriesIsLegal(board, 4, 3, 3, -1, -1)) // . gives false. diagonal fails
-	fmt.Println(boardIsLegal(board, 4))                // should print false
-	fmt.Println(boardIsASolution(board))               // false
-	fmt.Println("========")
 }

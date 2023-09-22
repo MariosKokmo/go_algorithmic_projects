@@ -33,3 +33,6 @@ https://www.khanacademy.org/computing/computer-science/cryptography/modarithmeti
 https://mathlesstraveled.com/2018/08/18/modular-exponentiation-by-repeated-squaring/
 https://en.wikipedia.org/wiki/Exponentiation_by_squaring
 https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/fast-modular-exponentiation
+
+https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
+https://en.wikipedia.org/wiki/Prime_number_theorem
