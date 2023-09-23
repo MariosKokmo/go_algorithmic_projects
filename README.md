@@ -22,6 +22,8 @@ Project 3 includes the solutions to some well-known recursion problems
 - dynamic fibonacci
 - knight's tour
 - N queens brute force
+- N queens redux
+- towers of Hanoi
 
 Project 4 includes code implementations for problems related to hashing
 
