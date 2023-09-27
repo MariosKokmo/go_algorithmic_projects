@@ -28,6 +28,10 @@ https://en.wikipedia.org/wiki/Eight_queens_puzzle
 
 https://en.wikipedia.org/wiki/Tower_of_Hanoi
 
+##Project 4 Hash tables
+
+https://en.wikipedia.org/wiki/Hash_table
+
 ##Project 5 Cryprography RSA
 
 https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm

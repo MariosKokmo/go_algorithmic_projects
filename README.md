@@ -26,6 +26,7 @@ Project 3 includes the solutions to some well-known recursion problems
 - towers of Hanoi
 
 Project 4 includes code implementations for problems related to hashing
+- chaining
 
 Project 5 includes code implementations of utilities for prime numbers and RSA
 - gcd
