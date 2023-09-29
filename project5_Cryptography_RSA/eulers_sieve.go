@@ -6,9 +6,26 @@ import (
 	"time"
 )
 
+// Build an Euler's sieve.
+func eulersSieve(max int) []bool {
+	sieve := make([]bool, max)
+	for p := 3; p <= max; p = p + 2 {
+		maxQ := int(max / p)
+		if maxQ%2 == 0 {
+			maxQ -= 1
+		}
+		for q := maxQ; q >= p; q = q - 2 {
+			//if q is marked as prime in the table,
+			//then cross out the entry for q * p to show it is not prime.
+			if sieve[q] == false {
+				sieve[p*q] = true
+			}
+		}
+	}
+	return sieve
+}
+
 // Build a sieve of Eratosthenes.
-// To avoid initialising the boolean table to true
-// we consider false meaning prime
 func sieveOfEratosthenes(max int) []bool {
 	sieve := make([]bool, max)
 	// we only need to check up to sqrt(n)
@@ -23,7 +40,6 @@ func sieveOfEratosthenes(max int) []bool {
 }
 
 // Print out the primes in the sieve.
-// false = prime
 func printSieve(sieve []bool) {
 	fmt.Print("2 ")
 	for i := 3; i < len(sieve); i = i + 2 {
@@ -37,7 +53,8 @@ func printSieve(sieve []bool) {
 // Convert the sieve into a slice holding prime numbers.
 func sieveToPrimes(sieve []bool) []int {
 	var primes []int
-	for i := 2; i < len(sieve); i++ {
+	primes = append(primes, 2)
+	for i := 3; i < len(sieve); i = i + 2 {
 		if sieve[i] == false {
 			primes = append(primes, i)
 		}
@@ -51,14 +68,18 @@ func main() {
 	fmt.Scan(&max)
 
 	start := time.Now()
-	sieve := sieveOfEratosthenes(max)
+	sieveEuler := eulersSieve(max)
 	elapsed := time.Since(start)
-	fmt.Printf("Elapsed: %f seconds\n", elapsed.Seconds())
+	fmt.Printf("Euler Elapsed: %f seconds\n", elapsed.Seconds())
+
+	start = time.Now()
+	sieveErat := sieveOfEratosthenes(max)
+	elapsed = time.Since(start)
+	fmt.Printf("Eratosthenes Elapsed: %f seconds\n", elapsed.Seconds())
 
 	if max <= 1000 {
-		printSieve(sieve)
-
-		primes := sieveToPrimes(sieve)
+		printSieve(sieveErat)
+		primes := sieveToPrimes(sieveEuler)
 		fmt.Println(primes)
 	}
 }
