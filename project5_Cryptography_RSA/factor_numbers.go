@@ -17,7 +17,7 @@ func findFactors(num int) []int {
 	}
 	factor := 3
 	for {
-		if factor > num {
+		if factor*factor > num {
 			break
 		}
 		if num%factor == 0 {
@@ -26,6 +26,10 @@ func findFactors(num int) []int {
 		} else {
 			factor += 2
 		}
+	}
+
+	if num > 1 {
+		factors = append(factors, num)
 	}
 	return factors
 }
@@ -36,7 +40,8 @@ func findFactorsSieve(num int) []int {
 	i := 0
 	factor := primes[i]
 	for {
-		if factor > num {
+		if factor*factor > num {
+			factors = append(factors, num)
 			break
 		}
 		if num%factor == 0 {
