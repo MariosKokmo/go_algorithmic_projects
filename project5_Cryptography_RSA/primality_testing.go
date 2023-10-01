@@ -6,6 +6,7 @@ import (
 	"io"
 	"math"
 	"math/big"
+	"strings"
 )
 
 const numTests = 20
@@ -52,6 +53,11 @@ func fastExpMod(num *big.Int, pow *big.Int, mod *big.Int) (c *big.Int) {
 }
 
 // Perform tests to see if a number is (probably) prime.
+// It performs numTests number of tests by selecting a random
+// integer every time. It performs the modulo exponentiation.
+// If it doesn't result in 1, it is not a prime and returns false.
+// If it passes the test then the probability of it not being a prime
+// is less than (1/2)^numTests
 func isProbablyPrime(p *big.Int, numTests int) bool {
 	one := big.NewInt(1)
 	pm1 := big.NewInt(0)
@@ -66,12 +72,14 @@ func isProbablyPrime(p *big.Int, numTests int) bool {
 }
 
 // Probabilistically find a prime number within the range [min, max).
+// randomly selects a number and runs the primality test.
 func findPrime(min *big.Int, max *big.Int, numTests int) *big.Int {
 	zero := big.NewInt(0)
 	two := big.NewInt(2)
 	for {
 		number := randRange(min, max)
-		if number.Mod(number, two).Cmp(zero) == 0 {
+		mod := big.NewInt(0)
+		if mod.Mod(number, two).Cmp(zero) == 0 {
 			continue
 		}
 		isPrime := isProbablyPrime(number, numTests)
@@ -117,4 +125,23 @@ func testKnownValues() {
 
 func main() {
 	testKnownValues()
+	fmt.Println()
+	for {
+		var numDigits int
+		fmt.Printf("Number of digits (give 1 to stop): ")
+		fmt.Scan(&numDigits)
+		if numDigits < 2 {
+			break
+		}
+		min := new(big.Int)
+		min, _ = min.SetString("1"+strings.Repeat("0", numDigits-1), 10)
+		max := new(big.Int)
+		max, _ = max.SetString("9"+strings.Repeat("9", numDigits-1), 10)
+		fmt.Printf("min: 10^%d - max: 10^(%d)-1\n", numDigits-1, numDigits)
+		fmt.Printf("Probability of being prime: %.7f\n", (1-math.Pow(0.5, numTests))*100)
+		prime := findPrime(min, max, numTests)
+		fmt.Println("# Digits: ", numDigits)
+		fmt.Println(prime)
+		fmt.Println()
+	}
 }

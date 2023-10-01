@@ -32,3 +32,8 @@ Project 5 includes code implementations of utilities for prime numbers and RSA
 - gcd
 - fast exponentiation
 - sieve of Eratosthenes
+- Euler sieve
+- factor numbers
+- primality testing
+
+Project 6 includes greedy algorithms and the knapsack problem
