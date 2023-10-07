@@ -46,3 +46,7 @@ https://en.wikipedia.org/wiki/Prime_number_theorem
 https://en.wikipedia.org/wiki/RSA_(cryptosystem)
 https://en.wikipedia.org/wiki/Carmichael_function
 https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm#Computing_multiplicative_inverses_in_modular_structures
+
+##Project 6 Knapsack
+
+https://en.wikipedia.org/wiki/Knapsack_problem
