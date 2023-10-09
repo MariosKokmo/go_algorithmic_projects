@@ -1,5 +1,3 @@
-// Exhaustive search
-
 package main
 
 import (
@@ -8,7 +6,7 @@ import (
 	"time"
 )
 
-const numItems = 22 // A reasonable value for exhaustive search.
+const numItems = 40 // A reasonable value for branch and bound search.
 
 const minValue = 1
 const maxValue = 10
@@ -22,20 +20,46 @@ type Item struct {
 	isSelected    bool
 }
 
-func doExhaustiveSearch(items []Item, allowedWeight, nextIndex int) ([]Item, int, int) {
+func doBranchAndBound(items []Item, allowedWeight, nextIndex, bestValue, currentValue, currentWeight, remainingValue int) ([]Item, int, int) {
+	// if we've reached the end
 	if nextIndex >= numItems {
 		curItems := copyItems(items)
 		solVal := solutionValue(curItems, allowedWeight)
 		return curItems, solVal, 1
 	}
-	items[nextIndex].isSelected = true
-	curItems1, solVal1, level1 := doExhaustiveSearch(items, allowedWeight, nextIndex+1)
-	items[nextIndex].isSelected = false
-	curItems2, solVal2, level2 := doExhaustiveSearch(items, allowedWeight, nextIndex+1)
-	if solVal1 > solVal2 {
-		return curItems1, solVal1, level1 + 1
+	// if we cannot improve in this sub-tree, abandon
+	if currentValue+remainingValue <= bestValue {
+		return nil, 0, 1
+	}
+	var test1Solution, test2Solution []Item
+	var test1Value, test1Calls, test2Value, test2Calls int
+	// if there is still space, try selecting
+	if currentWeight+items[nextIndex].weight <= allowedWeight {
+		items[nextIndex].isSelected = true
+		remValue := remainingValue - items[nextIndex].value
+		test1Solution, test1Value, test1Calls = doBranchAndBound(items, allowedWeight, nextIndex+1, bestValue, currentValue+items[nextIndex].value, currentWeight+items[nextIndex].weight, remValue)
+		if test1Value > bestValue {
+			bestValue = test1Value
+		}
 	} else {
-		return curItems2, solVal2, level2 + 1
+		test1Solution, test1Value, test1Calls = nil, 0, 1
+	}
+
+	if currentValue+remainingValue-items[nextIndex].value > bestValue {
+		items[nextIndex].isSelected = false
+		remValue2 := remainingValue - items[nextIndex].value
+		test2Solution, test2Value, test2Calls = doBranchAndBound(items, allowedWeight, nextIndex+1, bestValue, currentValue, currentWeight, remValue2)
+		if test2Value > bestValue {
+			bestValue = test2Value
+		}
+	} else {
+		test2Solution, test2Value, test2Calls = nil, 0, 1
+	}
+
+	if test1Value > test2Value {
+		return test1Solution, test1Value, test1Calls + 1
+	} else {
+		return test2Solution, test2Value, test2Calls + 1
 	}
 }
 
@@ -56,8 +80,8 @@ func main() {
 	if numItems > 65 { // Only run exhaustive search if numItems <= 23.
 		fmt.Println("Too many items for exhaustive search")
 	} else {
-		fmt.Println("*** Exhaustive Search ***")
-		runAlgorithm(exhaustiveSearch, items, allowedWeight)
+		fmt.Println("*** Branch and Bound Search ***")
+		runAlgorithm(branchAndBound, items, allowedWeight)
 	}
 }
 
@@ -159,6 +183,10 @@ func runAlgorithm(alg func([]Item, int) ([]Item, int, int), items []Item, allowe
 // Recursively assign values in or out of the solution.
 // Return the best assignment, value of that assignment,
 // and the number of function calls we made.
-func exhaustiveSearch(items []Item, allowedWeight int) ([]Item, int, int) {
-	return doExhaustiveSearch(items, allowedWeight, 0)
+func branchAndBound(items []Item, allowedWeight int) ([]Item, int, int) {
+	bestValue := 0
+	currentValue := 0
+	currentWeight := 0
+	remainingValue := sumValues(items, true)
+	return doBranchAndBound(items, allowedWeight, 0, bestValue, currentValue, currentWeight, remainingValue)
 }
